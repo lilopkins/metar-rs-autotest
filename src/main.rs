@@ -3,19 +3,19 @@ use regex::Regex;
 use metar::Metar;
 
 #[derive(Debug)]
-enum MTError {
+enum MTError<'a> {
     RequestError(reqwest::Error),
-    MetarParseError(metar::MetarError),
+    MetarParseError(metar::MetarError<'a>),
 }
 
-impl From<reqwest::Error> for MTError {
+impl From<reqwest::Error> for MTError<'_> {
     fn from(e: reqwest::Error) -> Self {
         Self::RequestError(e)
     }
 }
 
-impl From<metar::MetarError> for MTError {
-    fn from(e: metar::MetarError) -> Self {
+impl<'a> From<metar::MetarError<'a>> for MTError<'a> {
+    fn from(e: metar::MetarError<'a>) -> Self {
         Self::MetarParseError(e)
     }
 }
@@ -31,16 +31,16 @@ fn get_metar(station: &str) -> Result<String, MTError> {
 }
 
 fn main() {
-    let test_stations = ["KLAX", "EGSS", "LTBJ", "EDDK", "EGMC", "EGGD", "ESSA", "RJAA"];
+    let test_stations = ["KLAX", "EGSS", "LTBJ", "EDDK", "EGMC", "EGGD", "ESSA", "RJAA", "UUDD", "FACT", "ZGSZ"];
 
     for station in &test_stations {
         let res = get_metar(station);
         if let Ok(metar) = res {
             println!("Testing METAR: {}", metar.clone());
-            let r = Metar::parse(metar.clone());
+            let r = Metar::parse(&metar);
             if let Err(e) = r {
                 eprintln!("Error parsing: {}", metar);
-                eprintln!("{:#?}", e);
+                eprintln!("{}", e);
                 eprintln!("-----");
             }
         } else {
