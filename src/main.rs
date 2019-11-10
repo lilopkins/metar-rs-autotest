@@ -39,7 +39,7 @@ fn main() {
             println!("Testing METAR: {}", metar.clone());
             let r = Metar::parse(&metar);
             if let Err(e) = r {
-                eprintln!("Error parsing:", metar);
+                eprintln!("Error parsing:");
                 eprintln!("{}", e);
                 eprintln!("-----");
             }
