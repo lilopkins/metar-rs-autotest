@@ -31,7 +31,7 @@ fn get_metar(station: &str) -> Result<String, MTError> {
 }
 
 fn main() {
-    let test_stations = ["KLAX", "EGSS", "LTBJ", "EDDK", "EGMC", "EGGD", "ESSA", "RJAA", "UUDD", "FACT", "ZGSZ"];
+    let test_stations = ["KLAX", "EGSS", "LTBJ", "EDDK", "EGMC", "EGGD", "ESSA", "EGPC", "RJAA", "UUDD", "FACT", "ZGSZ"];
 
     for station in &test_stations {
         let res = get_metar(station);
