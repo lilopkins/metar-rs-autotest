@@ -20,8 +20,8 @@ impl<'a> From<metar::MetarError<'a>> for MTError<'a> {
     }
 }
 
-fn get_metar(station: &str) -> Result<String, MTError> {
-    let body = reqwest::get(&format!("https://aviationweather.gov/adds/dataserver_current/httpparam?dataSource=metars&requestType=retrieve&format=xml&hoursBeforeNow=3&mostRecent=true&stationString={}", station))?
+fn get_metar(station: &str) -> Result<String, MTError<'_>> {
+    let body = reqwest::blocking::get(&format!("https://aviationweather.gov/adds/dataserver_current/httpparam?dataSource=metars&requestType=retrieve&format=xml&hoursBeforeNow=3&mostRecent=true&stationString={}", station))?
         .text()?;
 
     let re = Regex::new(r"<raw_text>([^<]+)</raw_text>").unwrap();
