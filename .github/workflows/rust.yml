@@ -1,4 +1,4 @@
-name: Rust metar-rs Test
+name: metar-rs Automated Testing
 
 on:
   push:
@@ -11,7 +11,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
+      - name: Update
+        run: cargo update
       - name: Build
-        run: cargo build --verbose
+        run: cargo build
       - name: Run tests
         run: cargo run
