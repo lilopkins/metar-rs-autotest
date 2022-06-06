@@ -1,6 +1,5 @@
-use reqwest;
-use regex::Regex;
 use metar::Metar;
+use regex::Regex;
 
 #[derive(Debug)]
 enum MTError<'a> {
@@ -31,7 +30,10 @@ fn get_metar(station: &str) -> Result<String, MTError<'_>> {
 }
 
 fn main() {
-    let test_stations = ["KLAX", "EGSS", "LTBJ", "EDDK", "EGMC", "EGGD", "ESSA", "EGPC", "RJAA", "UUDD", "FACT", "ZGSZ"];
+    let test_stations = [
+        "KLAX", "EGSS", "LTBJ", "EDDK", "EGMC", "EGGD", "ESSA", "EGPC", "RJAA", "UUDD", "FACT",
+        "ZGSZ",
+    ];
 
     for station in &test_stations {
         let res = get_metar(station);
@@ -41,6 +43,9 @@ fn main() {
             if let Err(e) = r {
                 eprintln!("Error parsing:");
                 eprintln!("{}", e);
+                eprintln!("-----");
+            } else if let Ok(res) = r {
+                println!("{:?}", res);
                 eprintln!("-----");
             }
         } else {
