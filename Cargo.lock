@@ -420,9 +420,9 @@ checksum = "2dffe52ecf27772e601905b7522cb4ef790d2cc203488bbd0e2fe85fcb74566d"
 
 [[package]]
 name = "metar"
-version = "0.6.0"
+version = "0.6.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "32eae3cd89a106f5d13c83850af5edb339c94e0ed6d479e82ab4490d390ef02b"
+checksum = "89c22f001b03101547966aee79974836d391a185daffb4c8790868e3069b6689"
 dependencies = [
  "pest",
  "pest_derive",

@@ -45,18 +45,16 @@ fn main() {
             if let Err(e) = r {
                 eprintln!("Error parsing:");
                 eprintln!("{}", e);
-                eprintln!("-----");
-            } else if let Ok(res) = r {
-                println!("{:?}", res);
-                eprintln!("-----");
                 num_errors += 1;
+            } else if let Ok(res) = r {
+                eprintln!("{:?}", res);
             }
         } else {
             let res = res.unwrap_err();
             eprintln!("Error fetching data for testing {}", station);
             eprintln!("{:#?}", res);
-            eprintln!("-----");
         }
+        eprintln!("\n-----\n");
     }
 
     if num_errors > 0 {
