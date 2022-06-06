@@ -35,6 +35,8 @@ fn main() {
         "ZGSZ",
     ];
 
+    let mut num_errors = 0;
+
     for station in &test_stations {
         let res = get_metar(station);
         if let Ok(metar) = res {
@@ -47,6 +49,7 @@ fn main() {
             } else if let Ok(res) = r {
                 println!("{:?}", res);
                 eprintln!("-----");
+                num_errors += 1;
             }
         } else {
             let res = res.unwrap_err();
@@ -54,5 +57,9 @@ fn main() {
             eprintln!("{:#?}", res);
             eprintln!("-----");
         }
+    }
+
+    if num_errors > 0 {
+        std::process::exit(1);
     }
 }
