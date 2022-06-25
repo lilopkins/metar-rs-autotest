@@ -2,24 +2,24 @@ use metar::Metar;
 use regex::Regex;
 
 #[derive(Debug)]
-enum MTError<'a> {
+enum MTError {
     RequestError(reqwest::Error),
-    MetarParseError(metar::MetarError<'a>),
+    MetarParseError(metar::MetarError),
 }
 
-impl From<reqwest::Error> for MTError<'_> {
+impl From<reqwest::Error> for MTError {
     fn from(e: reqwest::Error) -> Self {
         Self::RequestError(e)
     }
 }
 
-impl<'a> From<metar::MetarError<'a>> for MTError<'a> {
-    fn from(e: metar::MetarError<'a>) -> Self {
+impl From<metar::MetarError> for MTError {
+    fn from(e: metar::MetarError) -> Self {
         Self::MetarParseError(e)
     }
 }
 
-fn get_metar(station: &str) -> Result<String, MTError<'_>> {
+fn get_metar(station: &str) -> Result<String, MTError> {
     let body = reqwest::blocking::get(&format!("https://aviationweather.gov/adds/dataserver_current/httpparam?dataSource=metars&requestType=retrieve&format=xml&hoursBeforeNow=3&mostRecent=true&stationString={}", station))?
         .text()?;
 
