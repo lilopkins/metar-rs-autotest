@@ -43,18 +43,18 @@ fn main() {
             println!("Testing METAR: {}", metar.clone());
             let r = Metar::parse(&metar);
             if let Err(e) = r {
-                eprintln!("Error parsing:");
+                eprintln!("Error:");
                 eprintln!("{}", e);
                 num_errors += 1;
             } else if let Ok(res) = r {
-                eprintln!("{:?}", res);
+                println!("{:?}", res);
             }
         } else {
             let res = res.unwrap_err();
             eprintln!("Error fetching data for testing {}", station);
             eprintln!("{:#?}", res);
         }
-        eprintln!("\n-----\n");
+        println!("\n-----\n");
     }
 
     if num_errors > 0 {
