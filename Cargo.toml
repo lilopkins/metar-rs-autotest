@@ -1,6 +1,6 @@
 [package]
 name = "metar-test"
-version = "0.6.1"
+version = "0.6.2"
 authors = ["Lily Hopkins <lily@hpkns.uk>"]
 edition = "2018"
 publish = false
@@ -11,5 +11,5 @@ panic = "abort"
 
 [dependencies]
 metar = "0.7"
-reqwest = { version = "0.11.10", features = ["blocking"] }
+reqwest = { version = "0.12.9", features = ["blocking"] }
 regex = "1.4.2"

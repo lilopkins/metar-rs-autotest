@@ -1,6 +1,7 @@
 use metar::Metar;
 use regex::Regex;
 
+#[allow(dead_code)]
 #[derive(Debug)]
 enum MTError {
     RequestError(reqwest::Error),
@@ -20,7 +21,7 @@ impl From<metar::MetarError> for MTError {
 }
 
 fn get_metar(station: &str) -> Result<String, MTError> {
-    let body = reqwest::blocking::get(&format!("https://aviationweather.gov/adds/dataserver_current/httpparam?dataSource=metars&requestType=retrieve&format=xml&hoursBeforeNow=3&mostRecent=true&stationString={}", station))?
+    let body = reqwest::blocking::get(format!("https://aviationweather.gov/adds/dataserver_current/httpparam?dataSource=metars&requestType=retrieve&format=xml&hoursBeforeNow=3&mostRecent=true&stationString={}", station))?
         .text()?;
 
     let re = Regex::new(r"<raw_text>([^<]+)</raw_text>").unwrap();
