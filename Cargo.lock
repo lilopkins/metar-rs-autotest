@@ -633,9 +633,9 @@ checksum = "f52b00d39961fc5b2736ea853c9cc86238e165017a493d1d5c8eac6bdc4cc273"
 
 [[package]]
 name = "metar"
-version = "0.8.0"
+version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ae430011ba3ae8ded22f41b3961ac023104863c81c935e4f02999b8923dd6915"
+checksum = "754c3c5a7e36f56124688c2c5af4f0f60cf08774a68d7feca313cd0b453e5b41"
 dependencies = [
  "annotate-snippets",
  "chumsky",

@@ -1,15 +1,18 @@
 #![deny(clippy::pedantic)]
 #![deny(unsafe_code)]
 
+use anyhow::anyhow;
 use metar::Metar;
 use regex::Regex;
 
 fn get_metar(station: &str) -> anyhow::Result<String> {
-    let body = reqwest::blocking::get(format!("https://aviationweather.gov/api/data/metar?ids={station}"))?
-        .text()?;
+    let body = reqwest::blocking::get(format!(
+        "https://aviationweather.gov/api/data/metar?ids={station}"
+    ))?
+    .text()?;
 
-    let re = Regex::new(r"^METAR (.+)$").unwrap();
-    let caps = re.captures(&body).unwrap();
+    let re = Regex::new(r"^METAR (.+)$")?;
+    let caps = re.captures(&body).ok_or(anyhow!("No METAR present"))?;
     let metar_text = &caps[1];
     Ok(metar_text.to_string())
 }
