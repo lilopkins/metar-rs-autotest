@@ -1,30 +1,14 @@
+#![deny(clippy::pedantic)]
+#![deny(unsafe_code)]
+
 use metar::Metar;
 use regex::Regex;
 
-#[allow(dead_code)]
-#[derive(Debug)]
-enum MTError {
-    RequestError(reqwest::Error),
-    MetarParseError(metar::MetarError),
-}
-
-impl From<reqwest::Error> for MTError {
-    fn from(e: reqwest::Error) -> Self {
-        Self::RequestError(e)
-    }
-}
-
-impl From<metar::MetarError> for MTError {
-    fn from(e: metar::MetarError) -> Self {
-        Self::MetarParseError(e)
-    }
-}
-
-fn get_metar(station: &str) -> Result<String, MTError> {
-    let body = reqwest::blocking::get(format!("https://aviationweather.gov/adds/dataserver_current/httpparam?dataSource=metars&requestType=retrieve&format=xml&hoursBeforeNow=3&mostRecent=true&stationString={}", station))?
+fn get_metar(station: &str) -> anyhow::Result<String> {
+    let body = reqwest::blocking::get(format!("https://aviationweather.gov/api/data/metar?ids={station}"))?
         .text()?;
 
-    let re = Regex::new(r"<raw_text>([^<]+)</raw_text>").unwrap();
+    let re = Regex::new(r"^METAR (.+)$").unwrap();
     let caps = re.captures(&body).unwrap();
     let metar_text = &caps[1];
     Ok(metar_text.to_string())
@@ -43,17 +27,19 @@ fn main() {
         if let Ok(metar) = res {
             println!("Testing METAR: {}", metar.clone());
             let r = Metar::parse(&metar);
-            if let Err(e) = r {
-                eprintln!("Error:");
-                eprintln!("{}", e);
+            if let Err(es) = r {
+                eprintln!("Errors:");
+                for e in es {
+                    eprintln!("{e}");
+                }
                 num_errors += 1;
             } else if let Ok(res) = r {
-                println!("{:?}", res);
+                println!("{res:?}");
             }
         } else {
             let res = res.unwrap_err();
-            eprintln!("Error fetching data for testing {}", station);
-            eprintln!("{:#?}", res);
+            eprintln!("Error fetching data for testing {station}");
+            eprintln!("{res:#?}");
         }
         println!("\n-----\n");
     }
