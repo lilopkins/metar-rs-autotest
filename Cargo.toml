@@ -1,6 +1,6 @@
 [package]
 name = "metar-test"
-version = "0.8.0"
+version = "0.8.1"
 authors = ["Lily Hopkins <lily@hpkns.uk>"]
 edition = "2024"
 publish = false
