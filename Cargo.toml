@@ -1,15 +1,15 @@
 [package]
 name = "metar-test"
-version = "0.8.1"
+version = "0.8.2"
 authors = ["Lily Hopkins <lily@hpkns.uk>"]
 edition = "2024"
 publish = false
 
 [dependencies]
-anyhow = "1.0"
-metar = "0.9"
-regex = "1.12"
-reqwest = { version = "0.12", features = ["blocking"] }
+anyhow = "*"
+metar = "*"
+regex = "*"
+reqwest = { version = "*", features = ["blocking"] }
 
 [profile.release]
 lto = true
